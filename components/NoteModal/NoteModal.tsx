@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import NoteForm from '../NoteForm/NoteForm';
@@ -46,3 +48,4 @@ export default function NoteModal({ onClose }: NoteModalProps) {
     document.body,
   );
 }
+
