@@ -1,12 +1,12 @@
 import NotePreview from '@/components/NotePreview/NotePreview';
+import type { JSX } from 'react';
 
 type PageProps = {
-  params: {
-    id: string;
-  };
+  params: { id: string };
 };
 
-export default async function NotePage({ params }: PageProps) {
+
+export default async function NotePage({ params }: PageProps): Promise<JSX.Element> {
   const id = Number(params.id);
 
   if (isNaN(id)) {
@@ -15,3 +15,4 @@ export default async function NotePage({ params }: PageProps) {
 
   return <NotePreview id={id} />;
 }
+
