@@ -1,16 +1,17 @@
-import Modal from '@/components/Modal/Modal';
 import NotePreview from '@/components/NotePreview/NotePreview';
 
-interface Props {
-  params: { id: string };
-}
+type PageProps = {
+  params: {
+    id: string;
+  };
+};
 
-export default function NoteModalPage({ params }: Props) {
+export default async function NotePage({ params }: PageProps) {
   const id = Number(params.id);
 
-  return (
-    <Modal>
-      <NotePreview id={id} />
-    </Modal>
-  );
+  if (isNaN(id)) {
+    throw new Error('Invalid note ID');
+  }
+
+  return <NotePreview id={id} />;
 }
