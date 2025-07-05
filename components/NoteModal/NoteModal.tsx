@@ -33,12 +33,16 @@ export default function NoteModal({ onClose }: NoteModalProps) {
   return ReactDOM.createPortal(
     <div className={css.backdrop} onClick={handleBackdropClick}>
       <div className={css.modal}>
-        <button className={css.close} onClick={onClose} aria-label="Close modal">
+        <button
+          className={css.close}
+          onClick={onClose}
+          aria-label="Close modal"
+        >
           ×
         </button>
         <NoteForm onClose={onClose} />
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }

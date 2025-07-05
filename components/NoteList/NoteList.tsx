@@ -24,7 +24,7 @@ export default function NoteList({ notes }: NoteListProps) {
 
   return (
     <ul className={styles.grid}>
-      {notes.map(note => (
+      {notes.map((note) => (
         <li key={note.id} className={styles.item}>
           <Link href={`/notes/${note.id}`} className={styles.card}>
             <h2 className={styles.title}>{note.title}</h2>
@@ -43,5 +43,3 @@ export default function NoteList({ notes }: NoteListProps) {
     </ul>
   );
 }
-
-

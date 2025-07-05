@@ -1,5 +1,6 @@
 export interface Note {
   id: number;
+  text: string;
   title: string;
   content: string;
   createdAt: string;
@@ -11,5 +12,3 @@ export interface NewNoteData {
   content?: string;
   tag: 'Todo' | 'Work' | 'Personal' | 'Meeting' | 'Shopping';
 }
-
-

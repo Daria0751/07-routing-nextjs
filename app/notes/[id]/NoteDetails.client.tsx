@@ -8,7 +8,11 @@ export default function NoteDetailsClient() {
   const { id } = useParams<{ id: string }>();
   const noteId = Number(id);
 
-  const { data: note, isLoading, error } = useQuery({
+  const {
+    data: note,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['note', noteId],
     queryFn: () => getSingleNote(noteId),
     refetchOnMount: false,
@@ -26,9 +30,3 @@ export default function NoteDetailsClient() {
     </div>
   );
 }
-
-
-
-
-
-

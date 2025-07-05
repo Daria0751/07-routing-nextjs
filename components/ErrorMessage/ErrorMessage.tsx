@@ -25,5 +25,3 @@ export default function ErrorMessage({
 
   return <p className={className || styles.text}>{meta.error}</p>;
 }
-
-

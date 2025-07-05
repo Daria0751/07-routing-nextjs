@@ -17,21 +17,37 @@ interface FetchNotesResponse {
   totalPages: number;
 }
 
-export const fetchNotes = async (search: string, page: number): Promise<FetchNotesResponse> => {
-  const response: AxiosResponse<FetchNotesResponse> = await axiosInstance.get('/notes', {
-    params: {
-      search: search.trim() || undefined,
-      page,
-      perPage: 12,
+export const fetchNotes = async (
+  search: string,
+  page: number,
+): Promise<FetchNotesResponse> => {
+  const response: AxiosResponse<FetchNotesResponse> = await axiosInstance.get(
+    '/notes',
+    {
+      params: {
+        search: search.trim() || undefined,
+        page,
+        perPage: 12,
+      },
     },
-  });
+  );
   return response.data;
 };
 
-export const getNotes = async (): Promise<FetchNotesResponse> => {
-  const response: AxiosResponse<FetchNotesResponse> = await axiosInstance.get('/notes', {
-    params: { page: 1, perPage: 12 },
-  });
+export const getNotes = async (
+  search: string,
+  page: number,
+): Promise<FetchNotesResponse> => {
+  const response: AxiosResponse<FetchNotesResponse> = await axiosInstance.get(
+    '/notes',
+    {
+      params: {
+        search: search.trim() || undefined,
+        page,
+        perPage: 12,
+      },
+    },
+  );
   return response.data;
 };
 
@@ -41,16 +57,21 @@ export const getSingleNote = async (id: number): Promise<Note> => {
 };
 
 export const createNote = async (newNote: NewNoteData): Promise<Note> => {
-  const response: AxiosResponse<Note> = await axiosInstance.post('/notes', newNote);
+  const response: AxiosResponse<Note> = await axiosInstance.post(
+    '/notes',
+    newNote,
+  );
   return response.data;
 };
 
 export const deleteNote = async (id: number): Promise<Note> => {
-  const response: AxiosResponse<Note> = await axiosInstance.delete(`/notes/${id}`);
+  const response: AxiosResponse<Note> = await axiosInstance.delete(
+    `/notes/${id}`,
+  );
   return response.data;
 };
 
-
-
-
-
+export const getTags = async (): Promise<string[]> => {
+  const response: AxiosResponse<string[]> = await axiosInstance.get('/tags');
+  return response.data;
+};

@@ -14,4 +14,3 @@ const NoteItem = ({ item }: Props) => {
 };
 
 export default NoteItem;
-

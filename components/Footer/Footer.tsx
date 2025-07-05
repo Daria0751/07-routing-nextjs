@@ -8,7 +8,8 @@ const Footer = () => {
         <div className="wrap">
           <p>Developer: your name</p>
           <p>
-            Contact us: <a href="mailto:student@notehub.app">student@notehub.app</a>
+            Contact us:{' '}
+            <a href="mailto:student@notehub.app">student@notehub.app</a>
           </p>
         </div>
       </div>
@@ -17,4 +18,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

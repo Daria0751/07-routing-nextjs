@@ -1,4 +1,9 @@
-import { Formik, Form, Field, ErrorMessage as FormikErrorMessage } from 'formik';
+import {
+  Formik,
+  Form,
+  Field,
+  ErrorMessage as FormikErrorMessage,
+} from 'formik';
 import * as Yup from 'yup';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createNote } from '@/lib/api';
@@ -53,13 +58,27 @@ export default function NoteForm({ onClose }: NoteFormProps) {
           <div className={css.formGroup}>
             <label htmlFor="title">Title</label>
             <Field id="title" name="title" className={css.input} />
-            <FormikErrorMessage name="title" component="div" className={css.error} />
+            <FormikErrorMessage
+              name="title"
+              component="div"
+              className={css.error}
+            />
           </div>
 
           <div className={css.formGroup}>
             <label htmlFor="content">Content</label>
-            <Field as="textarea" id="content" name="content" rows={5} className={css.textarea} />
-            <FormikErrorMessage name="content" component="div" className={css.error} />
+            <Field
+              as="textarea"
+              id="content"
+              name="content"
+              rows={5}
+              className={css.textarea}
+            />
+            <FormikErrorMessage
+              name="content"
+              component="div"
+              className={css.error}
+            />
           </div>
 
           <div className={css.formGroup}>
@@ -71,14 +90,27 @@ export default function NoteForm({ onClose }: NoteFormProps) {
               <option value="Meeting">Meeting</option>
               <option value="Shopping">Shopping</option>
             </Field>
-            <FormikErrorMessage name="tag" component="div" className={css.error} />
+            <FormikErrorMessage
+              name="tag"
+              component="div"
+              className={css.error}
+            />
           </div>
 
           <div className={css.actions}>
-            <button type="submit" disabled={isSubmitting || status === 'pending'}>
-              {isSubmitting || status === 'pending' ? 'Saving...' : 'Create note'}
+            <button
+              type="submit"
+              disabled={isSubmitting || status === 'pending'}
+            >
+              {isSubmitting || status === 'pending'
+                ? 'Saving...'
+                : 'Create note'}
             </button>
-            <button type="button" onClick={onClose} className={css.cancelButton}>
+            <button
+              type="button"
+              onClick={onClose}
+              className={css.cancelButton}
+            >
               Cancel
             </button>
           </div>
