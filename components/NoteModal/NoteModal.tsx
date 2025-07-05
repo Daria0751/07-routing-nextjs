@@ -6,10 +6,11 @@ import NoteForm from '../NoteForm/NoteForm';
 import css from './NoteModal.module.css';
 
 interface NoteModalProps {
+  id?: number; // зробили id необов’язковим
   onClose: () => void;
 }
 
-export default function NoteModal({ onClose }: NoteModalProps) {
+export default function NoteModal({ id, onClose }: NoteModalProps) {
   useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = 'hidden';
@@ -42,7 +43,7 @@ export default function NoteModal({ onClose }: NoteModalProps) {
         >
           ×
         </button>
-        <NoteForm onClose={onClose} />
+        <NoteForm id={id} onClose={onClose} />
       </div>
     </div>,
     document.body,

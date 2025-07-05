@@ -10,6 +10,7 @@ import { createNote } from '@/lib/api';
 import css from './NoteForm.module.css';
 
 interface NoteFormProps {
+  id?: number; 
   onClose: () => void;
 }
 

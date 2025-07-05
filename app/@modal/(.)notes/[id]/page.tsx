@@ -7,5 +7,5 @@ export default function ModalNotePage({ params }: { params: { id: string } }) {
     throw new Error('Invalid note ID');
   }
 
-  return <NoteModal onClose={() => {}} />;
+  return <NoteModal id={id} onClose={() => {}} />;
 }
