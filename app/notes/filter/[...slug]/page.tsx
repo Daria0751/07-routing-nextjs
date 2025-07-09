@@ -1,5 +1,6 @@
 import { getNotes } from '@/lib/api';
-import NotesClient from '@/components/NotesClient/NotesClient';
+import NotesClient from './Notes.client';
+
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
