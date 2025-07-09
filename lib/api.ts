@@ -20,36 +20,22 @@ interface FetchNotesResponse {
 export const fetchNotes = async (
   search: string,
   page: number,
+  tag?: string
 ): Promise<FetchNotesResponse> => {
-  const response: AxiosResponse<FetchNotesResponse> = await axiosInstance.get(
-    '/notes',
-    {
-      params: {
-        search: search.trim() || undefined,
-        page,
-        perPage: 12,
-      },
-    },
-  );
+  const params: Record<string, string | number | undefined> = {
+    search: search.trim() || undefined,
+    page,
+    perPage: 12,
+    tag: tag || undefined,
+  };
+
+  const response: AxiosResponse<FetchNotesResponse> = await axiosInstance.get('/notes', {
+    params,
+  });
   return response.data;
 };
 
-export const getNotes = async (
-  search: string,
-  page: number,
-): Promise<FetchNotesResponse> => {
-  const response: AxiosResponse<FetchNotesResponse> = await axiosInstance.get(
-    '/notes',
-    {
-      params: {
-        search: search.trim() || undefined,
-        page,
-        perPage: 12,
-      },
-    },
-  );
-  return response.data;
-};
+export const getNotes = fetchNotes;
 
 export const getSingleNote = async (id: number): Promise<Note> => {
   const response: AxiosResponse<Note> = await axiosInstance.get(`/notes/${id}`);
@@ -57,17 +43,12 @@ export const getSingleNote = async (id: number): Promise<Note> => {
 };
 
 export const createNote = async (newNote: NewNoteData): Promise<Note> => {
-  const response: AxiosResponse<Note> = await axiosInstance.post(
-    '/notes',
-    newNote,
-  );
+  const response: AxiosResponse<Note> = await axiosInstance.post('/notes', newNote);
   return response.data;
 };
 
 export const deleteNote = async (id: number): Promise<Note> => {
-  const response: AxiosResponse<Note> = await axiosInstance.delete(
-    `/notes/${id}`,
-  );
+  const response: AxiosResponse<Note> = await axiosInstance.delete(`/notes/${id}`);
   return response.data;
 };
 

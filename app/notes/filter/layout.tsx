@@ -1,5 +1,15 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-export default function FilterLayout({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+interface FilterLayoutProps {
+  children: ReactNode;
+  sidebar: ReactNode;
+}
+
+export default function FilterLayout({ children, sidebar }: FilterLayoutProps) {
+  return (
+    <div style={{ display: 'flex', gap: '24px' }}>
+      <aside>{sidebar}</aside>
+      <main style={{ flex: 1 }}>{children}</main>
+    </div>
+  );
 }
