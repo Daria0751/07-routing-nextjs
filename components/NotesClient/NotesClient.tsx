@@ -9,26 +9,28 @@ import SearchBox from '@/components/SearchBox/SearchBox';
 import NoteList from '@/components/NoteList/NoteList';
 import Loader from '@/components/Loader/Loader';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
-import NoteModal from '@/components/NoteModal/NoteModal';
+import Modal from '@/components/Modal/Modal';
 import Pagination from '@/components/Pagination/Pagination';
+import NotePreview from '@/components/NotePreview/NotePreview';
 import { fetchNotes } from '@/lib/api';
 import type { Note } from '@/types/note';
 
 interface Props {
+  tag?: string;
   initialData: {
     notes: Note[];
     totalPages: number;
   };
 }
 
-export default function NotesClient({ initialData }: Props) {
+export default function NotesClient({ initialData, tag = '' }: Props) {
   const [search, setSearch] = useState('');
   const [debouncedSearch] = useDebounce(search, 1000);
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['notes', debouncedSearch, page],
+    queryKey: ['notes', tag, debouncedSearch, page],
     queryFn: () => fetchNotes(debouncedSearch, page),
     placeholderData: (prev) => prev ?? initialData,
     staleTime: 1000 * 60 * 5,
@@ -49,6 +51,7 @@ export default function NotesClient({ initialData }: Props) {
 
       {isLoading && <Loader />}
       {isError && error && <ErrorMessage>{error.message}</ErrorMessage>}
+
       {data && data.notes.length > 0 ? (
         <>
           <NoteList notes={data.notes} />
@@ -64,7 +67,12 @@ export default function NotesClient({ initialData }: Props) {
         <p>No notes found.</p>
       )}
 
-      {isModalOpen && <NoteModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)}>
+        <NotePreview id={0} /> {}
+      </Modal>
+      
+      )}
     </div>
   );
 }

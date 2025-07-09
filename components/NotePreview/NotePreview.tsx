@@ -1,18 +1,28 @@
+'use client';
+
 import { getSingleNote } from '@/lib/api';
-import css from './NotePreview.module.css';
+import { useQuery } from '@tanstack/react-query';
 
 interface Props {
   id: number;
 }
 
-export default async function NotePreview({ id }: Props) {
-  const note = await getSingleNote(id);
+export default function NotePreview({ id }: Props) {
+  const { data: note, isLoading, error } = useQuery({
+    queryKey: ['note', id],
+    queryFn: () => getSingleNote(id),
+  });
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error || !note) return <p>Failed to load note</p>;
 
   return (
-    <div className={css.container}>
-      <h2 className={css.title}>{note.title}</h2>
-      <p className={css.text}>{note.text}</p>
-      <p className={css.tag}>{note.tag}</p>
-    </div>
+    <>
+      <h2>{note.title}</h2>
+      <p>{note.content}</p>
+      <p>Tag: {note.tag}</p>
+      <p>Created at: {note.createdAt}</p>
+    </>
   );
 }
+

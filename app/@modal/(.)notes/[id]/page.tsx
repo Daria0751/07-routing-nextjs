@@ -1,11 +1,18 @@
-import NoteModal from '@/components/NoteModal/NoteModal';
+import Modal from '@/components/Modal/Modal';
+import NotePreview from '@/components/NotePreview/NotePreview';
 
-export default function ModalNotePage({ params }: { params: { id: string } }) {
-  const id = Number(params.id);
-
-  if (isNaN(id)) {
-    throw new Error('Invalid note ID');
-  }
-
-  return <NoteModal id={id} onClose={() => {}} />;
+interface Props {
+  params: { id: string };
 }
+
+export default function ModalNotePage({ params }: Props) {
+  const noteId = Number(params.id);
+
+  return (
+    <Modal>
+      <NotePreview id={noteId} />
+    </Modal>
+  );
+}
+
+

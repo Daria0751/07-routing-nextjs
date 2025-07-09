@@ -1,5 +1,5 @@
 import { getNotes } from '@/lib/api';
-import NotesClient from './Notes.client';
+import NotesClient from '@/components/NotesClient/NotesClient';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -16,5 +16,5 @@ export default async function NotesPage({ params }: Props) {
 
   const notes = await getNotes(safeTag, 1);
 
-  return <NotesClient initialData={notes.notes} tag={tag} />;
+  return <NotesClient initialData={notes} tag={tag} />;
 }
