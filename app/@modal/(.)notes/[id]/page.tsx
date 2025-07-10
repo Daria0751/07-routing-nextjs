@@ -3,16 +3,14 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import NotePreview from './NotePreview.client';
 import Modal from '@/components/Modal/Modal';
 
-interface Props {
+export default async function ModalNotePage({
+  params,
+}: {
   params: { id: string };
-}
-
-export default async function ModalNotePage({ params }: Props) {
+}) {
   const id = Number(params.id);
 
-  if (isNaN(id)) {
-    throw new Error('Invalid note ID');
-  }
+  if (isNaN(id)) throw new Error('Invalid note ID');
 
   const queryClient = new QueryClient();
 
@@ -29,6 +27,7 @@ export default async function ModalNotePage({ params }: Props) {
     </HydrationBoundary>
   );
 }
+
 
 
 

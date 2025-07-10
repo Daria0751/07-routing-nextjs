@@ -10,8 +10,9 @@ import { createNote } from '@/lib/api';
 import css from './NoteForm.module.css';
 
 interface NoteFormProps {
-  id?: number; 
+  id?: number;
   onClose: () => void;
+  onSuccess?: () => void; // ✅ додано
 }
 
 const validationSchema = Yup.object({
@@ -25,7 +26,7 @@ const validationSchema = Yup.object({
     .required('Tag is required'),
 });
 
-export default function NoteForm({ onClose }: NoteFormProps) {
+export default function NoteForm({ onClose, onSuccess }: NoteFormProps) {
   const queryClient = useQueryClient();
 
   const { mutate, status } = useMutation({
@@ -33,6 +34,7 @@ export default function NoteForm({ onClose }: NoteFormProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
       onClose();
+      onSuccess?.(); // ✅ викликаємо, якщо є
     },
     onError: (error: unknown) => {
       console.error('Error creating note:', error);

@@ -16,9 +16,6 @@ const Header = () => {
           <li>
             <Link href="/">Home</Link>
           </li>
-          <li>
-            <Link href="/notes">Notes</Link>
-          </li>
         </ul>
         <TagsMenu />
       </nav>
@@ -27,4 +24,5 @@ const Header = () => {
 };
 
 export default Header;
+
 

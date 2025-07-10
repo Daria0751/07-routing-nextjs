@@ -1,17 +1,16 @@
 import { getNotes } from '@/lib/api';
 import NotesClient from './Notes.client';
-
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Notes page',
 };
 
-interface Props {
-  params: { slug?: string[] };
-}
-
-export default async function NotesPage({ params }: Props) {
+export default async function NotesPage({
+  params,
+}: {
+  params: { slug: string[] };
+}) {
   const tag = params.slug?.[0] || '';
   const safeTag = tag === 'All' ? '' : tag;
 
