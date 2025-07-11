@@ -1,18 +1,31 @@
-import NotePreview from '@/components/NotePreview/NotePreview';
-import type { JSX } from 'react';
+import { getSingleNote } from '@/lib/api';
+import { QueryClient, dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import NotePreview from '@/app/@modal/(.)notes/[id]/NotePreview.client';
+import { notFound } from 'next/navigation';
 
-type PageProps = {
+interface Props {
   params: { id: string };
-};
+}
 
-
-export default async function NotePage({ params }: PageProps): Promise<JSX.Element> {
+export default async function NotePage({ params }: Props) {
   const id = Number(params.id);
 
-  if (isNaN(id)) {
-    throw new Error('Invalid note ID');
+  if (!params.id || isNaN(id)) {
+    notFound();
   }
 
-  return <NotePreview id={id} />;
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['note', id],
+    queryFn: () => getSingleNote(id),
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <NotePreview id={id} />
+    </HydrationBoundary>
+  );
 }
+
 
