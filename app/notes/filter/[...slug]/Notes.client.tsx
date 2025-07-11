@@ -39,17 +39,21 @@ export default function NotesClient({ tag = '', initialData }: Props) {
 
   const { data } = useQuery({
     queryKey: ['notes', tag, debouncedSearch, page],
-    queryFn: () => getNotes(`${tag} ${debouncedSearch}`.trim(), page),
-    placeholderData: initialData,
+    queryFn: () => getNotes(tag, page, debouncedSearch),
+    placeholderData: () => initialData,
     staleTime: 1000 * 60 * 5,
-  });
+  });  
 
   if (!data) return null;
 
   return (
     <>
       <SearchBox value={search} onChange={setSearch} />
-      <NoteList notes={data.notes} />
+      {data.notes.length > 0 ? (
+        <NoteList notes={data.notes} />
+      ) : (
+        <p>No notes found.</p>
+      )}
       <Pagination
         totalPages={data.totalPages}
         currentPage={page}
@@ -67,4 +71,6 @@ export default function NotesClient({ tag = '', initialData }: Props) {
     </>
   );
 }
+
+
 
