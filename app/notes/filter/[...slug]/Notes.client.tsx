@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-
 import { getNotes } from '@/lib/api';
 import type { Note } from '@/types/note';
 
@@ -22,17 +21,30 @@ interface Props {
 
 export default function NotesClient({ tag = '', initialData }: Props) {
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch]);
+
   const { data } = useQuery({
-    queryKey: ['notes', { tag, search, page }],
-    queryFn: () => getNotes(`${tag} ${search}`.trim(), page),
+    queryKey: ['notes', tag, debouncedSearch, page],
+    queryFn: () => getNotes(`${tag} ${debouncedSearch}`.trim(), page),
     placeholderData: initialData,
     staleTime: 1000 * 60 * 5,
   });
 
-  if (!data) return null; // ✅ захист від undefined
+  if (!data) return null;
 
   return (
     <>
@@ -47,9 +59,9 @@ export default function NotesClient({ tag = '', initialData }: Props) {
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
           <NoteForm
-  onClose={() => setIsModalOpen(false)}
-  onSuccess={() => setIsModalOpen(false)}
-/>
+            onClose={() => setIsModalOpen(false)}
+            onSuccess={() => setIsModalOpen(false)}
+          />
         </Modal>
       )}
     </>

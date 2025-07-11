@@ -6,11 +6,10 @@ export const metadata: Metadata = {
   title: 'Notes page',
 };
 
-export default async function NotesPage({
-  params,
-}: {
-  params: { slug: string[] };
-}) {
+export default async function NotesPage(
+  props: Promise<{ params: { slug: string[] } }>
+) {
+  const { params } = await props;
   const tag = params.slug?.[0] || '';
   const safeTag = tag === 'All' ? '' : tag;
 
