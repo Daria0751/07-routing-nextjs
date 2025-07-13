@@ -25,6 +25,8 @@ export default function NotesClient({ tag = '', initialData }: Props) {
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const safeTag = tag === 'All' ? '' : tag;
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
@@ -38,8 +40,8 @@ export default function NotesClient({ tag = '', initialData }: Props) {
   }, [debouncedSearch]);
 
   const { data } = useQuery({
-    queryKey: ['notes', tag, debouncedSearch, page],
-    queryFn: () => getNotes(debouncedSearch, page, tag),
+    queryKey: ['notes', safeTag, debouncedSearch, page],
+    queryFn: () => getNotes(debouncedSearch, page, safeTag),
     placeholderData: () => initialData,
     staleTime: 1000 * 60 * 5,
   });  
@@ -71,6 +73,7 @@ export default function NotesClient({ tag = '', initialData }: Props) {
     </>
   );
 }
+
 
 
 
