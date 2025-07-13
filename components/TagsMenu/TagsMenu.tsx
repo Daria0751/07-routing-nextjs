@@ -1,23 +1,16 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import css from './TagsMenu.module.css';
 
 const tags = ['All', 'Todo', 'Work', 'Personal', 'Meeting', 'Shopping'];
 
 export default function TagsMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
-
-  const handleTagClick = (tag: string) => {
-    const safeTag = tag === 'All' ? '' : tag;
-    router.push(`/notes/filter/${safeTag}`);
-    setIsOpen(false);
-  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -45,16 +38,16 @@ export default function TagsMenu() {
 
       {isOpen && (
         <ul className={css.dropdown}>
-          {tags.map((tag) => (
-            <li key={tag}>
-              <button
-                className={css.tagButton}
-                onClick={() => handleTagClick(tag)}
-              >
-                {tag}
-              </button>
-            </li>
-          ))}
+          {tags.map((tag) => {
+            const href = `/notes/filter/${tag}`;
+            return (
+              <li key={tag}>
+                <Link href={href} className={css.tagButton}>
+                  {tag}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

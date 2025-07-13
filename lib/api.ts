@@ -32,6 +32,7 @@ export const fetchNotes = async (
   const response: AxiosResponse<FetchNotesResponse> = await axiosInstance.get('/notes', {
     params,
   });
+
   return response.data;
 };
 
