@@ -1,36 +1,27 @@
-import { getSingleNote } from '@/lib/api';
-import { QueryClient, HydrationBoundary, dehydrate } from '@tanstack/react-query';
-import { notFound } from 'next/navigation';
+'use client';
+
+import { use } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import NotePreview from './NotePreview.client';
 import Modal from '@/components/Modal/Modal';
 
-export default async function ModalNotePage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const resolvedParams = await params;
-  const id = Number(resolvedParams.id);
+const queryClient = new QueryClient();
 
-  if (!resolvedParams.id || isNaN(id)) {
-    return notFound();
-  }
+export default function ModalNotePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  const noteId = Number(id);
 
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({
-    queryKey: ['note', id],
-    queryFn: () => getSingleNote(id),
-  });
+  if (!id || isNaN(noteId)) return null;
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Modal onClose={() => history.back()}>
-        <NotePreview id={id} />
+    <QueryClientProvider client={queryClient}>
+      <Modal onClose={() => window.history.back()}>
+        <NotePreview id={noteId} />
       </Modal>
-    </HydrationBoundary>
+    </QueryClientProvider>
   );
 }
+
 
 
 
