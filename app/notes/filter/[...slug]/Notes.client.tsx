@@ -31,7 +31,6 @@ export default function NotesClient({ tag = '', initialData }: Props) {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
     }, 500);
-
     return () => clearTimeout(timer);
   }, [search]);
 
@@ -40,11 +39,11 @@ export default function NotesClient({ tag = '', initialData }: Props) {
   }, [debouncedSearch]);
 
   const { data } = useQuery({
-    queryKey: ['notes', safeTag, debouncedSearch, page],
-    queryFn: () => getNotes(debouncedSearch, page, safeTag),
-    placeholderData: () => initialData,
+    queryKey: ['notes', debouncedSearch, safeTag, page],
+    queryFn: () => getNotes(debouncedSearch, page, tag),
+    initialData,
     staleTime: 1000 * 60 * 5,
-  });  
+  });
 
   if (!data) return null;
 

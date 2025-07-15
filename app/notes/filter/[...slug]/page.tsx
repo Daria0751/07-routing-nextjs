@@ -1,23 +1,18 @@
 import { fetchNotes } from '@/lib/api';
 import NotesClient from './Notes.client';
 import { Metadata } from 'next';
+import { use } from 'react';
 
 export const metadata: Metadata = {
   title: 'Filtered Notes',
 };
 
-interface PageProps {
-  params: {
-    slug?: string[];
-  };
-}
-
-export default async function NotesFilteredPage({ params }: PageProps) {
-  const slug = params.slug ?? [];
+export default function NotesFilteredPage({ params }: { params: Promise<{ slug?: string[] }> }) {
+  const { slug = [] } = use(params);
   const tag = slug[0] || '';
   const safeTag = tag === 'All' ? '' : tag;
 
-  const notes = await fetchNotes('', 1, safeTag);
+  const notes = use(fetchNotes('', 1, safeTag));
 
   return <NotesClient initialData={notes} tag={tag} />;
 }
