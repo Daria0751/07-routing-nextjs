@@ -6,19 +6,18 @@ export const metadata: Metadata = {
   title: 'Filtered Notes',
 };
 
-interface PageProps {
-  params: { slug: string[] };
-}
+export default async function NotesPage({
+  params,
+}: {
+  params: Promise<{ slug: string[] }>;
+}) {
+  const { slug } = await params;
+  const tag = slug[0];
+  const safeTag = tag !== 'All' ? tag : '';
 
-export default async function NotesFilteredPage({ params }: PageProps) {
-  // Від params.slug завжди приходить масив
-  const [tag] = params.slug;
-  const safeTag = tag === 'All' ? '' : tag;
+  const data = await fetchNotes('', 1, safeTag);
 
-  // Серверний виклик без хуків
-  const notesData = await fetchNotes('', 1, safeTag);
-
-  return <NotesClient initialData={notesData} tag={tag} />;
+  return <NotesClient initialData={data} tag={tag} />;
 }
 
 

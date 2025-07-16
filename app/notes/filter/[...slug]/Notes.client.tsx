@@ -28,18 +28,18 @@ export default function NotesClient({ tag = '', initialData }: Props) {
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const safeTag = tag === 'All' ? '' : tag;
+  const safeTag = tag !== 'All' ? tag : '';
 
   const debounced = useDebouncedCallback((value: string) => {
     setDebouncedSearch(value);
-    setPage(1); // reset pagination
+    setPage(1);
   }, 500);
 
   const { data } = useQuery<FetchNotesResponse>({
     queryKey: ['notes', debouncedSearch, safeTag, page],
     queryFn: () => fetchNotes(debouncedSearch, page, safeTag),
-    placeholderData: () => initialData,
-    staleTime: 1000 * 60 * 5, // 5 хвилин
+    initialData,
+    staleTime: 1000 * 60 * 5,
   });
 
   return (
