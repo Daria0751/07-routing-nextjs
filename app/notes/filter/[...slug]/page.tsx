@@ -1,20 +1,24 @@
 import { fetchNotes } from '@/lib/api';
 import NotesClient from './Notes.client';
 import { Metadata } from 'next';
-import { use } from 'react';
 
 export const metadata: Metadata = {
   title: 'Filtered Notes',
 };
 
-export default function NotesFilteredPage({ params }: { params: Promise<{ slug?: string[] }> }) {
-  const { slug = [] } = use(params);
-  const tag = slug[0] || '';
+interface PageProps {
+  params: { slug: string[] };
+}
+
+export default async function NotesFilteredPage({ params }: PageProps) {
+  // Від params.slug завжди приходить масив
+  const [tag] = params.slug;
   const safeTag = tag === 'All' ? '' : tag;
 
-  const notes = use(fetchNotes('', 1, safeTag));
+  // Серверний виклик без хуків
+  const notesData = await fetchNotes('', 1, safeTag);
 
-  return <NotesClient initialData={notes} tag={tag} />;
+  return <NotesClient initialData={notesData} tag={tag} />;
 }
 
 
